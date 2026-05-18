@@ -13,7 +13,7 @@ public class App {
         Product orange = new SimpleProduct("orange", 20);
         Product apple = new FixPriceProduct("apple");
         Product banana = new SimpleProduct("banana", 20);
-        Product egg = new DiscountedProduct("egg", 15,25);
+        Product egg = new DiscountedProduct("egg", 15, 25);
         Product carrot = new FixPriceProduct("carrot");
         Product potato = new DiscountedProduct("potato", 10, 50);
 

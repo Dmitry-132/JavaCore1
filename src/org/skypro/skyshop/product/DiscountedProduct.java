@@ -6,22 +6,23 @@ public class DiscountedProduct extends Product {
     private double basePrice;
 
     public DiscountedProduct(String productName, double basePrice, int discountInWholePercentages) {
-        super(productName,basePrice);
+        super(productName);
+        this.basePrice = basePrice;
         this.discountInWholePercentages = discountInWholePercentages;
     }
 
-@Override
+    @Override
     public double getProductPrice() {
-        return productPrice - ((productPrice * discountInWholePercentages) / 100);
+        return basePrice - ((basePrice * discountInWholePercentages) / 100);
     }
 
+    @Override
     public boolean isSpecial() {
         return true;
     }
 
+    @Override
     public String toString() {
-        double finalPrice = getProductPrice();
-        System.out.printf("%s : %.2f (%d %%)%n", productName, finalPrice,discountInWholePercentages);
-        return null;
+        return String.format("%s : %.2f (%d %%)", productName, getProductPrice(), discountInWholePercentages);
     }
 }
