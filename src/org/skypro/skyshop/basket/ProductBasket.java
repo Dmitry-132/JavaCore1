@@ -29,16 +29,22 @@ public class ProductBasket {
 
     public void contentBasket() {
         double totalCost = 0;
+        int specialProduct = 0;
         for (Product testProduct : productBasket) {
             if (testProduct != null) {
                 totalCost += testProduct.getProductPrice();
-                System.out.printf("< %s >: < %.2f >%n", testProduct.getProductName(), testProduct.getProductPrice());
+                testProduct.toString();
+                if (testProduct.isSpecial() == true) {
+                    specialProduct +=1;
+                }
             }
+
         }
         if (totalCost == 0) {
             System.out.println("«в корзине пусто»\n");
         } else {
-            System.out.printf("Итого: < %.2f >%n%n", totalCost);
+            System.out.printf("Итого: %.2f %n", totalCost);
+            System.out.println("Специальных товаров: " + specialProduct + "\n");
         }
     }
 
