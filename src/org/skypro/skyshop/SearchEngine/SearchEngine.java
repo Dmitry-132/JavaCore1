@@ -42,7 +42,7 @@ public class SearchEngine {
     public void add(Searchable added) {
         if (size < searchables.length) {
             searchables[size++] = added;
-            System.out.println(added + " добавлен");
+            System.out.println(added.searchTerm() + " добавлен");
             return;
         }
         System.out.println("массив поиска заполнен");
