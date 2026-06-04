@@ -5,7 +5,10 @@ import org.skypro.skyshop.Article.Searchable;
 public abstract class Product implements Searchable {
     protected final String productName;
 
-    public Product(String productName) {
+    public Product(String productName) throws NullPointerException{
+        if (productName == null || productName.isBlank()) {
+            throw new NullPointerException("имя продукта не задано");
+        }
         this.productName = productName;
     }
 
@@ -24,6 +27,6 @@ public abstract class Product implements Searchable {
 
     @Override
     public String typeContent() {
-        return "PRODUCT";
+        return "< PRODUCT >";
     }
 }

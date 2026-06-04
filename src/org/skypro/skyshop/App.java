@@ -4,6 +4,7 @@ import org.skypro.skyshop.Article.Article;
 import org.skypro.skyshop.Article.Searchable;
 import org.skypro.skyshop.SearchEngine.SearchEngine;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.exceptions.BestResultNotFound;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
@@ -21,6 +22,17 @@ public class App {
         Product carrot = new FixPriceProduct("carrot");
         Product potato = new DiscountedProduct("potato", 10, 50);
 
+        try {
+            Product tomato = new DiscountedProduct("tomato", 18, 110);
+        } catch (NullPointerException | IllegalArgumentException e) {
+            System.out.println(e);
+        }
+        try {
+            Product cherry = new DiscountedProduct("", 18, 10);
+        } catch (NullPointerException | IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
         Article aboutPlantingOranges = new Article("about planting oranges",
                 "Oranges can be grown in various ways: from seeds at home or in the open field");
         Article eggsExpensive = new Article("Eggs are expensive",
@@ -35,11 +47,19 @@ public class App {
         searchEnginec.add(potato);
         searchEnginec.add(aboutPlantingOranges);
         searchEnginec.add(eggsExpensive);
-        searchEnginec.search("Egg");
-        searchEnginec.search("ban");
-        searchEnginec.search("machinegun");
-        searchEnginec.search("a");
-        searchEnginec.search("    ");
+
+        try {
+            System.out.println();
+            searchEnginec.searchTheBest("e");
+            searchEnginec.searchTheBest("egeref");
+        } catch (BestResultNotFound n) {
+            System.out.println(n);
+        }
+//        searchEnginec.search("Egg");
+//        searchEnginec.search("ban");
+//        searchEnginec.search("machinegun");
+//        searchEnginec.search("a");
+//        searchEnginec.search(" ");
 
 //        basket.addProduct(orange);
 //        basket.addProduct(apple);

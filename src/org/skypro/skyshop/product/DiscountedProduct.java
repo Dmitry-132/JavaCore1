@@ -5,8 +5,14 @@ public class DiscountedProduct extends Product {
     private int discountInWholePercentages;
     private double basePrice;
 
-    public DiscountedProduct(String productName, double basePrice, int discountInWholePercentages) {
+    public DiscountedProduct(String productName, double basePrice, int discountInWholePercentages) throws IllegalArgumentException {
         super(productName);
+        if (basePrice < 1) {
+            throw new IllegalArgumentException("Цена продукта должна быть выше или ровна 1");
+        }
+        if (discountInWholePercentages < 0 || discountInWholePercentages > 100) {
+            throw new IllegalArgumentException("процент скидки некорректен");
+        }
         this.basePrice = basePrice;
         this.discountInWholePercentages = discountInWholePercentages;
     }
