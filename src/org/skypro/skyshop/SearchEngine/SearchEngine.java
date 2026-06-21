@@ -2,51 +2,37 @@ package org.skypro.skyshop.SearchEngine;
 
 import org.skypro.skyshop.Article.Searchable;
 import org.skypro.skyshop.exceptions.BestResultNotFound;
+import org.skypro.skyshop.product.Product;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchEngine {
+    List<Searchable> searchables = new ArrayList<>();
 
-    private Searchable[] searchables;
-    private int size;
-
-    public SearchEngine(int size) {
-        this.searchables = new Searchable[size];
-        System.out.println("Массив поиска с " + size + " ячейками \n");
-        this.size = 0; //теперь отвечает за заполненные ячейки
-    }
-
-    public Searchable[] search(String seek) {
+    public List<Searchable> search(String seek) {
         System.out.println("поиск совпадений с " + seek);
-        Searchable[] searchResult = new Searchable[5];
+        List<Searchable> searchResult = new ArrayList<>();
         if (seek == null || seek.trim().length() < 3) {
-            System.out.println("поисковый запрос должен быть не короче 3 символов");
+            System.out.println("поисковый запрос должен быть не короче 3 символов\n");
             return searchResult;
         }
-        int index = 0;
         for (Searchable search : searchables) {
             if (search != null && search.searchForMatches(seek)) {
                 System.out.println(search.getStringRepresentation());
-                searchResult[index++] = search;
-                if (index == searchResult.length) {
-                    System.out.println("массив полностью заполнен, был выставлен лимит на " + searchResult.length + " совпадений \n");
-                    return searchResult;
-                }
+                searchResult.add(search);
             }
         }
-        if (index == 0) {
+        if (searchResult.size() == 0) {
             System.out.println("Совпадений нет \n");
         } else {
-            System.out.println("Найдено " + index + " совпадений \n");
+            System.out.println("Найдено " + searchResult.size() + " совпадений \n");
         }
         return searchResult; //в массиве возможен null
     }
 
     public void add(Searchable added) {
-        if (size < searchables.length) {
-            searchables[size++] = added;
-            System.out.println(added.searchTerm() + " добавлен");
-            return;
-        }
-        System.out.println("массив поиска заполнен");
+        searchables.add(added);
     }
 
     public Searchable searchTheBest(String seek) throws BestResultNotFound {
