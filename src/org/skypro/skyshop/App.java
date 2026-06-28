@@ -10,10 +10,12 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 
+import java.util.ArrayList;
+
 public class App {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
-        SearchEngine searchEnginec = new SearchEngine(10);
+        SearchEngine searchEnginec = new SearchEngine();
 
         Product orange = new SimpleProduct("orange", 20);
         Product apple = new FixPriceProduct("apple");
@@ -55,26 +57,27 @@ public class App {
         } catch (BestResultNotFound n) {
             System.out.println(n);
         }
-//        searchEnginec.search("Egg");
-//        searchEnginec.search("ban");
-//        searchEnginec.search("machinegun");
-//        searchEnginec.search("a");
-//        searchEnginec.search(" ");
+        searchEnginec.search("Egg");
+        searchEnginec.search("ban");
+        searchEnginec.search("machinegun");
+        searchEnginec.search(" ");
 
-//        basket.addProduct(orange);
-//        basket.addProduct(apple);
-//        basket.addProduct(banana);
-//        basket.addProduct(egg);
-//        basket.addProduct(carrot);
-//        basket.addProduct(potato);
-//
-//        basket.contentBasket();
+        basket.addProduct(orange);
+        basket.addProduct(apple);
+        basket.addProduct(banana);
+        basket.addProduct(egg);
+        basket.addProduct(carrot);
+        basket.addProduct(potato);
+        basket.contentBasket();
 //        basket.totalCostBasket();
 //        basket.searchProduct("Orange");
 //        basket.searchProduct("Potato");
 //        basket.totalCleaningBasket();
 //        basket.contentBasket();
 //        basket.totalCostBasket();
-//        basket.searchProduct("Orange");
+        basket.searchProduct("Orange");
+        basket.removeProduct("orange");
+        basket.contentBasket();
+        basket.removeProduct("orange");
     }
 }
