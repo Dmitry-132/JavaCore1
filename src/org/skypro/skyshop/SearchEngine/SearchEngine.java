@@ -6,9 +6,11 @@ import org.skypro.skyshop.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class SearchEngine {
-    List<Searchable> searchables = new ArrayList<>();
+    private Map<String, Searchable> searchables = new TreeMap<>();
 
     public List<Searchable> search(String seek) {
         System.out.println("поиск совпадений с " + seek);
@@ -17,13 +19,13 @@ public class SearchEngine {
             System.out.println("поисковый запрос должен быть не короче 3 символов\n");
             return searchResult;
         }
-        for (Searchable search : searchables) {
+        for (Searchable search : searchables.values()) {
             if (search != null && search.searchForMatches(seek)) {
                 System.out.println(search.getStringRepresentation());
                 searchResult.add(search);
             }
         }
-        if (searchResult.size() == 0) {
+        if (searchResult.isEmpty()) {
             System.out.println("Совпадений нет \n");
         } else {
             System.out.println("Найдено " + searchResult.size() + " совпадений \n");
@@ -32,7 +34,7 @@ public class SearchEngine {
     }
 
     public void add(Searchable added) {
-        searchables.add(added);
+        searchables.put(added.searchTerm().toLowerCase(),added);
     }
 
     public Searchable searchTheBest(String seek) throws BestResultNotFound {
@@ -40,11 +42,11 @@ public class SearchEngine {
         if (seek == null || seek.isBlank()) {
             System.out.println("Поисковый запрос пуст");
             return null;
-        } // вроде работет но надо будет отредачить, если вспомню, что и зачем здесь писал
+        }
         String cleanSearch = seek.trim().toLowerCase();
         int maxCount = 0;
         Searchable bestMatch = null;
-        for (Searchable s : searchables) {
+        for (Searchable s : searchables.values()) {
             if (s == null) continue;
             int count = 0;
             int index = 0;
