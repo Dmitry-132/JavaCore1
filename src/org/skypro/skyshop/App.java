@@ -61,7 +61,8 @@ public class App {
         searchEnginec.search("ban");
         searchEnginec.search("machinegun");
         searchEnginec.search(" ");
-
+        basket.addProduct(orange);
+        basket.addProduct(orange);
         basket.addProduct(orange);
         basket.addProduct(apple);
         basket.addProduct(banana);
@@ -76,6 +77,7 @@ public class App {
 //        basket.contentBasket();
 //        basket.totalCostBasket();
         basket.searchProduct("Orange");
+        basket.searchProduct("orange");
         basket.removeProduct("orange");
         basket.contentBasket();
         basket.removeProduct("orange");
