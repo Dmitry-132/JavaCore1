@@ -5,23 +5,21 @@ import org.skypro.skyshop.exceptions.BestResultNotFound;
 import org.skypro.skyshop.product.Product;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
     private Set<Searchable> searchables = new TreeSet<>(new ArticleComparator());
 
     public Set<Searchable> search(String seek) {
         System.out.println("поиск совпадений с " + seek);
-        Set<Searchable> searchResult = new HashSet<>();
         if (seek == null || seek.trim().length() < 3) {
             System.out.println("поисковый запрос должен быть не короче 3 символов\n");
-            return searchResult;
+            return new TreeSet<>();
         }
-        for (Searchable search : searchables) {
-            if (search != null && search.searchForMatches(seek)) {
-                System.out.println(search.getStringRepresentation());
-                searchResult.add(search);
-            }
-        }
+        Set<Searchable> searchResult = searchables.stream()
+                .filter(s -> s != null && s.searchForMatches(seek))
+                .peek(search -> System.out.println(search.getStringRepresentation()))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new ArticleComparator())));
         if (searchResult.isEmpty()) {
             System.out.println("Совпадений нет \n");
         } else {
@@ -45,7 +43,7 @@ public class SearchEngine {
         }
         String cleanSearch = seek.trim().toLowerCase();
         int maxCount = 0;
-        Searchable bestMatch = null;
+        Searchable bestMatch = null; //переделать позже под стрим
         for (Searchable s : searchables) {
             if (s == null) continue;
             int count = 0;
