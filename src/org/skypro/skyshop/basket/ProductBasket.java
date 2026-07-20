@@ -13,28 +13,14 @@ public class ProductBasket {
         productBasket.computeIfAbsent(product.getProductName().toLowerCase(), k -> new ArrayList<>()).add(product);
     }
 
-    public int size() {
-        int totalCount = 0;
-        for (List<Product> productList : productBasket.values()) {  // values() — возвращает все значения
-            totalCount += productList.size();
-        }
-        return totalCount;
-    }
-
-
     public double totalCostBasket() {
         if (productBasket.isEmpty()) {
             System.out.println("Корзина пуста\n");
             return 0;
         }
-        double totalCost = 0;
-        for (List<Product> productList : productBasket.values()) {
-            for (Product testProduct : productList) {
-                if (testProduct != null) {
-                    totalCost += testProduct.getProductPrice();
-                }
-            }
-        }
+        double totalCost = productBasket.values().stream().flatMap(Collection::stream)
+                .mapToDouble(Product::getProductPrice)
+                .sum();
         System.out.println("Общая стоимость " + totalCost + "\n");
         return totalCost;
     }
@@ -43,21 +29,20 @@ public class ProductBasket {
         if (productBasket.isEmpty()) {
             System.out.println("В корзине пусто\n");
         }
-        double totalCost = 0;
-        int specialProduct = 0;
-        for (Map.Entry<String, List<Product>> entry : productBasket.entrySet()) { //выведет все пары ключ — значение из map в entry
-            for (Product testProduct : entry.getValue()) {
-                if (testProduct != null) {
-                    totalCost += testProduct.getProductPrice();
-                    System.out.println(testProduct);
-                    if (testProduct.isSpecial()) {
-                        specialProduct += 1;
-                    }
-                }
-            }
-        }
+        double totalCost = productBasket.values().stream().flatMap(Collection::stream)
+                .peek(System.out::println)
+                .mapToDouble(Product::getProductPrice)
+                .sum();
+        int specialProduct = getSpecialCount();
         System.out.printf("Итого: %.2f %n", totalCost);
         System.out.println("Специальных товаров: " + specialProduct + "\n");
+    }
+
+    private int getSpecialCount() {
+        return (int) productBasket.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 
     public boolean searchProduct(String name) {
